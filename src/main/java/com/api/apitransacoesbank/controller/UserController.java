@@ -34,12 +34,12 @@ public class UserController {
 
     @GetMapping
     public ResponseEntity<Object> getAllUsers(@PageableDefault(page = 0 , size = 10 , sort = "id" , direction = Sort.Direction.ASC) Pageable pageable) {
-        return ResponseEntity.status(HttpStatus.OK).body(userService.getAllUsers(pageable).getContent());
+        return ResponseEntity.status(HttpStatus.FOUND).body(userService.getAllUsers(pageable).getContent());
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<Optional<User>> getUserById(@PathVariable(value = "id") UUID id){
-        return ResponseEntity.status(HttpStatus.OK).body(userService.getUser(id));
+        return ResponseEntity.status(HttpStatus.FOUND).body(userService.getUser(id));
     }
 
 
@@ -47,5 +47,12 @@ public class UserController {
     public ResponseEntity<Optional<User>> deleteUser(@PathVariable(value = "id") UUID id){
         return ResponseEntity.status(HttpStatus.OK).body(userService.deleteUser(id));
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Object> editUser(@PathVariable(value = "id") UUID id , @Valid @RequestBody UserDTO userDTO ) {
+
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(userService.editUser(id , userDTO));
+    }
+
 
 }

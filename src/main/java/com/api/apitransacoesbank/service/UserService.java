@@ -9,7 +9,6 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -23,17 +22,12 @@ public class UserService {
     public User saveUser(UserDTO userDTO) {
         var user = new User();
         BeanUtils.copyProperties(userDTO, user);
-
-        if (userRepository.existsByEmail(user.getEmail()) || userRepository.existsByName(user.getName()))
-            throw new IllegalArgumentException("A user with the same email or username already exists.");
-
         return userRepository.save(user);
     }
 
     public Page<User> getAllUsers(Pageable pageable){
         return userRepository.findAll(pageable);
     }
-
 
     public Optional<User> getUser(UUID id){
         return userRepository.findById(id);
@@ -45,5 +39,14 @@ public class UserService {
         return returnUser;
     }
 
+    public UserDTO editUser(UUID id, UserDTO userDTO) {
+
+        userRepository.findById(id).ifPresent(user -> {
+            BeanUtils.copyProperties(userDTO, user , "id");
+            userRepository.save(user);
+        });
+
+        return userDTO;
+    }
 
 }
