@@ -1,5 +1,7 @@
 package com.api.apitransacoesbank.service;
 
+import com.api.apitransacoesbank.domain.bank.Account;
+import com.api.apitransacoesbank.domain.bank.Bank;
 import com.api.apitransacoesbank.domain.user.User;
 import com.api.apitransacoesbank.dto.UserDTO;
 import com.api.apitransacoesbank.repositories.UserRepository;
@@ -22,6 +24,9 @@ public class UserService {
     public User saveUser(UserDTO userDTO) {
         var user = new User();
         BeanUtils.copyProperties(userDTO, user);
+        user.setBank(new Bank());
+        user.getBank().setAccount(new Account());
+        System.out.println(user.getBank().getAccount().getBalance());
         return userRepository.save(user);
     }
 

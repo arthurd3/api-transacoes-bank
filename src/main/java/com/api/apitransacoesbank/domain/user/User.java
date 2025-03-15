@@ -1,6 +1,7 @@
 package com.api.apitransacoesbank.domain.user;
 
 
+import com.api.apitransacoesbank.domain.bank.Bank;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -22,12 +23,11 @@ public class User {
 
     @Column(name = "name" , nullable = false)
     private String name;
-    @Column(name = "email" , nullable = false)
+    @Column(name = "email" , nullable = false , unique = true)
     private String email;
-    @Column(name = "balance" , nullable = false)
-    private Double balance;
 
-
-
+    @ManyToOne(cascade = CascadeType.ALL) // Se um usuário for criado, um banco também será
+    @JoinColumn(name = "bank_id", referencedColumnName = "agency_id")
+    private Bank bank = new Bank();
 
 }
