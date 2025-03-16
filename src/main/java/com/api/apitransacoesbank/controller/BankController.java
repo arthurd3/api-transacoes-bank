@@ -22,7 +22,6 @@ public class BankController {
         return ResponseEntity.status(HttpStatus.OK).body(bankService.sendMoney(transactionDTO));
     }
 
-
     @PostMapping("/setBalance/{id}")
     public ResponseEntity<?> setBalance(@PathVariable(value = "id") UUID id , @Valid @RequestBody BalanceRequestDTO amount) {
         return ResponseEntity.status(HttpStatus.OK).body(bankService.setBalance(id , amount));

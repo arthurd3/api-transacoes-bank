@@ -6,5 +6,5 @@ import jakarta.validation.constraints.NotBlank;
 
 import java.util.UUID;
 
-public record UserDTO(UUID id , @NotBlank String name, @NotBlank String email , Bank bank) {
+public record UserDTO(UUID id , @NotBlank String name, @NotBlank String email , Bank bank ) {
 }

@@ -3,7 +3,6 @@ package com.api.apitransacoesbank.service;
 import com.api.apitransacoesbank.domain.bank.Account;
 import com.api.apitransacoesbank.domain.bank.Bank;
 import com.api.apitransacoesbank.domain.user.User;
-import com.api.apitransacoesbank.dto.UserDTO;
 import com.api.apitransacoesbank.repositories.UserRepository;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 import java.util.UUID;
-
 
 @Service
 public class UserService {
@@ -47,12 +45,14 @@ public class UserService {
 
     public Object editUser(UUID id, Object userDTO) {
 
+        var returnUser = getUserOrThrow(id);
+
         userRepository.findById(id).ifPresent(user -> {
-            BeanUtils.copyProperties(userDTO, user , "id");
+            BeanUtils.copyProperties(userDTO, user , "id" , "bank");
             userRepository.save(user);
         });
 
-        return userDTO;
+        return returnUser;
     }
 
 
@@ -61,3 +61,4 @@ public class UserService {
                 .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
     }
 }
+
