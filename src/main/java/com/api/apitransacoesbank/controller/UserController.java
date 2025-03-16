@@ -50,7 +50,6 @@ public class UserController {
 
     @PutMapping("/{id}")
     public ResponseEntity<Object> editUser(@PathVariable(value = "id") UUID id , @Valid @RequestBody UserDTO userDTO ) {
-
         return ResponseEntity.status(HttpStatus.ACCEPTED).body(userService.editUser(id , userDTO));
     }
 

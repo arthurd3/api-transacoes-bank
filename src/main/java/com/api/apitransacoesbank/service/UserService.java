@@ -21,11 +21,12 @@ public class UserService {
     private UserRepository userRepository;
 
 
-    public User saveUser(UserDTO userDTO) {
+    public User saveUser(Object userDTO) {
         var user = new User();
         BeanUtils.copyProperties(userDTO, user);
         user.setBank(new Bank());
         user.getBank().setAccount(new Account());
+
         System.out.println(user.getBank().getAccount().getBalance());
         return userRepository.save(user);
     }
@@ -44,7 +45,7 @@ public class UserService {
         return returnUser;
     }
 
-    public UserDTO editUser(UUID id, UserDTO userDTO) {
+    public Object editUser(UUID id, Object userDTO) {
 
         userRepository.findById(id).ifPresent(user -> {
             BeanUtils.copyProperties(userDTO, user , "id");
@@ -54,4 +55,9 @@ public class UserService {
         return userDTO;
     }
 
+
+    public User getUserOrThrow(UUID id) {
+        return userRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Usuário não encontrado"));
+    }
 }
